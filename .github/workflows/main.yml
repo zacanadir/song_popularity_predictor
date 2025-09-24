@@ -1,14 +1,22 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      # Checkout code
       - uses: actions/checkout@v3
+
+      # Setup Python with pip caching
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+          cache: 'pip'
+
+      # Install dependencies
       - run: pip install -r requirements.txt
-      - run: pytest tests/
+
+      # Run unit tests with coverage
+      - run: pytest tests/ --cov=. --cov-report=term-missing
