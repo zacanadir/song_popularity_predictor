@@ -19,4 +19,4 @@ jobs:
       - run: pip install -r requirements.txt
 
       # Run unit tests with coverage
-      - run: pytest tests/ --cov=. --cov-report=term-missing
+      - run: pytest --cov=. --cov-report=term-missing tests/
