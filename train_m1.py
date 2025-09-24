@@ -11,20 +11,24 @@ from pathlib import Path
 # ----------------------------
 # Load data
 # ----------------------------
-data = pd.read_csv("data/dataset.csv", index_col=0)  # safer handling of unnamed index
+def prepare_data(path="data/dataset.csv"):
+    data = pd.read_csv(path, index_col=0)  # safer handling of unnamed index
 
-X = data.drop(columns=[
-    "track_id", "artists", "album_name", "track_name",
-    "track_genre", "popularity"
-])
-y = data["popularity"].astype(float)
+    X = data.drop(columns=[
+        "track_id", "artists", "album_name", "track_name",
+        "track_genre", "popularity"
+    ])
+    y = data["popularity"].astype(float)
+    X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+    return X_train, X_test, y_train, y_test
 
+X_train, X_test, y_train, y_test = prepare_data()
 # ----------------------------
 # Train/test split
 # ----------------------------
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+
 
 # ----------------------------
 # Preprocessing

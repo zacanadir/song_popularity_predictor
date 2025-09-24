@@ -5,7 +5,11 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.dummy import DummyRegressor
+import os
+import sys
 
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+import train_m1
 # ----------------------------
 # Tiny dummy pipeline
 # ----------------------------
@@ -58,3 +62,7 @@ def test_pipeline_multiple_rows():
     X_multi = pd.concat([X_dummy]*3, ignore_index=True)
     y_pred = pipeline.predict(X_multi)
     assert len(y_pred) == 6  # 2 rows * 3 repeats
+
+def test_prepare_data():
+    X_train,_,y_train,_ = train_m1.prepare_data()
+    assert len(X_train) == len(y_train)
